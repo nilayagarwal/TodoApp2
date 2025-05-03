@@ -7,5 +7,17 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nilayagarwal/TodoApp2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nilayagarwal/TodoApp2/issues"
+  },
+  "homepage": "https://github.com/nilayagarwal/TodoApp2#readme",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0"
+  }
 }

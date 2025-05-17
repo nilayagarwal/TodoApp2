@@ -2,10 +2,78 @@
     <title>Todo App</title>
 </head>
 <script>
+    function deletedone(id){
+        console.log("deletedone");
+        const parentElement = document.getElementById("main area");
+        const element = document.querySelector(`[data-id="${id}"]`);
+        if (element && parentElement) parentElement.removeChild(element);
+    }
+    function deleteTodo(id) {
+        console.log("Trying to delete ID:", id); // Check the ID
+        fetch(`/todos/${id}`, {  // No extra slash after /todos
+            method: "DELETE",
+        }).then(() => deletedone(id))
+            .catch((err) => console.error("Error deleting:", err));
+    }
+
+    function todosCallback(data){
+
+        var parentElement = document.getElementById("main area");
+        for (var i = 0; i < data.length; i++) {
+            var childElement = document.createElement("div");
+            childElement.setAttribute("data-id", data[i].id);
+
+            var grandchildElement1 = document.createElement("span");
+            grandchildElement1.innerHTML = data[i].title ;
+
+            var grandchildElement2 = document.createElement("span");
+            grandchildElement2.innerHTML = data[i].description ;
+
+            var grandchildElement3 = document.createElement("button");
+            grandchildElement3.innerHTML = "Delete" ;
+            grandchildElement3.setAttribute("onClick", "deleteTodo(" + data[i].id + ")");
+
+            childElement.appendChild(grandchildElement1);
+            childElement.appendChild(grandchildElement2);
+            childElement.appendChild(grandchildElement3);
+
+            parentElement.appendChild(childElement);
+        }
+    }
+
+    function callback2(resp){
+        resp.json().then(todosCallback)
+    }
+
+    function getData(){
+        fetch("/todos", {
+            method: "GET",
+        }).then(callback2);
+    }
+
+    getData();
+
     function onPress() {
         function parsedResponse(data) {
             console.log(data);
-        }
+            var parentElement = document.getElementById("main area");
+            var childElement = document.createElement("div");
+            var grandchildElement1 = document.createElement("span");
+            grandchildElement1.innerHTML = data.title ;
+
+            var grandchildElement2 = document.createElement("span");
+            grandchildElement2.innerHTML = data.description ;
+            var grandchildElement3 = document.createElement("button");
+            grandchildElement3.innerHTML = "Delete" ;
+
+            childElement.appendChild(grandchildElement1);
+            childElement.appendChild(grandchildElement2);
+            childElement.appendChild(grandchildElement3);
+
+            parentElement.appendChild(childElement);
+            }
+
+
 
         function callback(resp) {
             resp.json().then(parsedResponse);
@@ -31,4 +99,7 @@ Todo Description
 <input type="text" id="description">
 <br><br>
 <button onclick="onPress()">send todo</button>
+<div id = "main area">
+
+</div>
 </body>

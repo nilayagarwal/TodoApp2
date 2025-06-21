@@ -3,16 +3,16 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 
-// Serve static files (including index.html) from current directory
+
 app.use(express.static(path.join(__dirname)));
 
-// Middleware
+
 app.use(bodyParser.json());
 
-// In-memory todos
+
 let todos = [];
 
-// Helper functions
+
 function findIndex(arr, id) {
     return arr.findIndex(item => item.id === id);
 }
@@ -21,7 +21,7 @@ function removeAtIndex(arr, index) {
     return arr.filter((_, i) => i !== index);
 }
 
-// Routes
+
 app.get('/todos', (req, res) => res.json(todos));
 
 app.get('/todos/:id', (req, res) => {
@@ -53,7 +53,7 @@ app.delete('/todos/:id', (req, res) => {
     res.status(200).send();
 });
 
-// Catch-all 404
+
 app.use((req, res) => res.status(404).send());
 
 app.listen(3001, () => console.log("Server running at http://localhost:3001"));
